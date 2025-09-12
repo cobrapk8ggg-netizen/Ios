@@ -16,7 +16,7 @@ jobs:
           xcode-version: '16.4'
 
       - name: Unzip Project
-        run: unzip ChatZeus.zip
+        run: unzip ChatZEUS.zip
 
       - name: Create ExportOptions.plist
         run: |
@@ -35,23 +35,23 @@ jobs:
 
       - name: Build and Archive
         run: |
-          xcodebuild -project ChatZeus.swiftpm \
-                     -scheme ChatZeus \
+          xcodebuild -project ChatZEUS.swiftpm \
+                     -scheme ChatZEUS \
                      -sdk iphoneos \
                      -configuration Release \
-                     -archivePath build/ChatZeus.xcarchive \
+                     -archivePath build/ChatZEUS.xcarchive \
                      archive \
                      CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
-                     -archivePath build/ChatZeus.xcarchive \
+                     -archivePath build/ChatZEUS.xcarchive \
                      -exportOptionsPlist ExportOptions.plist \
                      -exportPath build
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ChatZeus-IPA
+          name: ChatZEUS-IPA
           path: build/*.ipa
