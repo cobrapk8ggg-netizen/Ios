@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: macos-latest
     env:
-      APP_NAME: ChatZEUS   # غيّر هنا إذا كان اسم bundle مختلفًا
+      APP_NAME: ZEUS Browser   # غيّر هنا إذا كان اسم bundle مختلفًا
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,44 +18,44 @@ jobs:
           xcode-version: '16.4'
 
       - name: Unzip Project
-        run: unzip ChatZEUS.zip
+        run: unzip "ZEUS Browser.zip"
 
       - name: Show available schemes (verify)
         run: |
-          if [ -d "ChatZEUS.swiftpm" ]; then
-            cd ChatZEUS.swiftpm
-            echo "داخل مجلد ChatZEUS.swiftpm — أظهر الـ schemes المتاحة:"
+          if [ -d "ZEUS Browser.swiftpm" ]; then
+            cd "ZEUS Browser.swiftpm"
+            echo "داخل مجلد ZEUS Browser.swiftpm — أظهر الـ schemes المتاحة:"
             xcodebuild -list || true
             cd ..
           else
-            echo "لم أجد مجلد ChatZEUS.swiftpm؛ أدرج محتويات المستودع:"
+            echo "لم أجد مجلد ZEUS Browser.swiftpm؛ أدرج محتويات المستودع:"
             ls -la
             exit 1
           fi
 
       - name: Build and Archive
         run: |
-          APP_NAME="${APP_NAME:-ChatZEUS}"
-          if [ -d "ChatZEUS.swiftpm" ]; then
-            cd ChatZEUS.swiftpm
+          APP_NAME="${APP_NAME:-ZEUS Browser}"
+          if [ -d "ZEUS Browser.swiftpm" ]; then
+            cd "ZEUS Browser.swiftpm"
             mkdir -p ../build
             echo "بادئ البناء والأرشفة للاسم: $APP_NAME"
             xcodebuild -scheme "$APP_NAME" \
-                       -destination 'generic/platform=iOS' \
-                       -sdk iphoneos \
-                       -configuration Release \
-                       -archivePath ../build/"$APP_NAME".xcarchive \
-                       archive \
-                       CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+              -destination 'generic/platform=iOS' \
+              -sdk iphoneos \
+              -configuration Release \
+              -archivePath ../build/"$APP_NAME".xcarchive \
+              archive \
+              CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
             cd ..
           else
-            echo "لا يمكن البناء: لم أجد مجلد ChatZEUS.swiftpm"
+            echo "لا يمكن البناء: لم أجد مجلد ZEUS Browser.swiftpm"
             exit 1
           fi
 
       - name: Show archive contents (debug)
         run: |
-          APP_NAME="${APP_NAME:-ChatZEUS}"
+          APP_NAME="${APP_NAME:-ZEUS Browser}"
           ARCHIVE="build/$APP_NAME.xcarchive"
           echo "تفاصيل الأرشيف (إن وجدت): $ARCHIVE"
           if [ -d "$ARCHIVE" ]; then
@@ -68,7 +68,7 @@ jobs:
 
       - name: Create unsigned IPA (for signing later with ksign)
         run: |
-          APP_NAME="${APP_NAME:-ChatZEUS}"
+          APP_NAME="${APP_NAME:-ZEUS Browser}"
           ARCHIVE="build/$APP_NAME.xcarchive"
           APP_PATH="$ARCHIVE/Products/Applications/$APP_NAME.app"
 
@@ -91,5 +91,5 @@ jobs:
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ChatZEUS-IPA
+          name: ZEUS-Browser-IPA
           path: build/*.ipa
